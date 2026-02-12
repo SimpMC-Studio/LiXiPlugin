@@ -1,0 +1,221 @@
+---
+title: User Commands
+description: All player-facing commands in LiXiPlugin
+---
+
+This page lists all commands available to regular players. Admin commands are documented on the [Admin Commands](/commands/admin-commands/) page.
+
+:::tip[Money Shorthand]
+All commands support convenient money shortcuts: **1k** (1,000), **1m** (1,000,000), **1b** (1,000,000,000), **1t** (1,000,000,000,000). You can also use decimals like `1.5k` or `2.25M`!
+:::
+
+---
+
+## Main Command
+
+### `/lixi`
+
+**Aliases:** `/lx`, `/luckmoney`
+
+**Permission:** None (default)
+
+**Description:** Shows a list of all available lixi commands.
+
+**Usage:**
+```
+/lixi
+```
+
+**Output:**
+```
+LiXi Commands
+/lixi chat <money> <limit> - Create chat broadcast
+/lixi give <player> <money> - Direct transfer
+/lixi phongbao <money> - Create physical envelope
+Money formats: 100, 1k, 1.5M, 2T
+```
+
+---
+
+## Chat Broadcast
+
+### `/lixi chat <money> <limit>`
+
+**Permission:** `lixi.chat`
+
+**Description:** Creates a chat broadcast where players can click to claim random amounts of money. The total amount is split randomly among the first players to claim.
+
+**Arguments:**
+- `<money>` - Total money amount to distribute (supports formatted numbers)
+- `<limit>` - Number of claim slots (how many players can claim)
+
+**Usage Examples:**
+```bash
+# Give 10,000 to 5 players
+/lixi chat 10000 5
+
+# Give 50k to 10 players
+/lixi chat 50k 10
+
+# Give 1.5 million to 30 players
+/lixi chat 1.5M 30
+```
+
+**Constraints:**
+- Amount must be between `min-amount` and `max-amount` (configured in `main-config.yml`)
+- Limit must be between `min-limit` and `max-limit` (configured in `main-config.yml`)
+- You must have enough money in your account
+- Unclaimed money is refunded after `expiry-seconds` (default 60 seconds)
+
+**What Players See:**
+- A broadcast message appears in chat with a clickable `[CLAIM NOW]` button
+- First players to click receive a random split of the total amount
+- Once all slots are claimed or time expires, the session ends
+
+---
+
+## Direct Transfer
+
+### `/lixi give <player> <money>`
+
+**Permission:** `lixi.give`
+
+**Description:** Directly transfers money to another player. Simple and instant.
+
+**Arguments:**
+- `<player>` - Target player name (must be online)
+- `<money>` - Amount to transfer (supports formatted numbers)
+
+**Usage Examples:**
+```bash
+# Give 1000 to Steve
+/lixi give Steve 1000
+
+# Give 25k to Alex
+/lixi give Alex 25k
+
+# Give 2.5 million to Notch
+/lixi give Notch 2.5M
+```
+
+**Constraints:**
+- Target player must be online
+- You cannot send money to yourself
+- You must have enough money in your account
+
+---
+
+## Physical Envelope
+
+### `/lixi phongbao <money>`
+
+**Aliases:** `/lixi envelope`, `/lixi pb`
+
+**Permission:** `lixi.phongbao`
+
+**Description:** Creates a physical envelope item that can be traded, stored, or gifted. When right-clicked, the holder receives the money.
+
+**Arguments:**
+- `<money>` - Amount to put in the envelope (supports formatted numbers)
+
+**Usage Examples:**
+```bash
+# Create a 5000 envelope
+/lixi phongbao 5000
+
+# Create a 100k envelope
+/lixi phongbao 100k
+
+# Create a 1 million envelope
+/lixi phongbao 1M
+```
+
+**Constraints:**
+- You must have enough money in your account
+- A custom envelope item must be configured (see [Setting Envelope Item](/guides/set-item/))
+- You must have a free inventory slot
+
+**Features:**
+- Envelope can be dropped, traded, or stored
+- Only works once - becomes a regular item after claiming
+- Shows the amount in the item lore
+- Persistent across server restarts (stored in database)
+
+---
+
+## Money Format Reference
+
+All commands that accept money amounts support these formats:
+
+| Format | Example | Actual Value |
+|--------|---------|--------------|
+| Plain number | `1000` | 1,000 |
+| Thousands (k/K) | `1k`, `1.5k` | 1,000, 1,500 |
+| Millions (m/M) | `1M`, `2.5M` | 1,000,000, 2,500,000 |
+| Billions (b/B) | `1B`, `1.2B` | 1,000,000,000, 1,200,000,000 |
+| Trillions (t/T) | `1T`, `5T` | 1,000,000,000,000, 5,000,000,000,000 |
+
+:::tip[Decimal Support]
+You can use decimals with any format: `1.5k` = 1,500 and `2.25M` = 2,250,000
+:::
+
+---
+
+## Permission Summary
+
+| Command | Permission | Default |
+|---------|------------|---------|
+| `/lixi` | None | Everyone |
+| `/lixi chat` | `lixi.chat` | OP |
+| `/lixi give` | `lixi.give` | OP |
+| `/lixi phongbao` | `lixi.phongbao` | OP |
+
+For a complete permission reference, see the [Permissions Guide](/guides/permissions/).
+
+---
+
+## Examples
+
+### Hosting an Event
+
+```bash
+# Create a big giveaway for 50 players
+/lixi chat 1M 50
+```
+
+Players see:
+```
+[Lì Xì] » YourName đã gửi lì xì $1,000,000 cho 50 người! [NHẬN NGAY]
+```
+
+---
+
+### Thanking a Helper
+
+```bash
+# Give 10k directly to a helpful player
+/lixi give HelpfulPlayer 10k
+```
+
+You see:
+```
+[Lì Xì] » Bạn đã gửi $10,000 cho HelpfulPlayer
+```
+
+They see:
+```
+[Lì Xì] » Bạn đã nhận $10,000 từ YourName!
+```
+
+---
+
+### Creating Gift Envelopes
+
+```bash
+# Create multiple envelopes for trading
+/lixi phongbao 5k
+/lixi phongbao 5k
+/lixi phongbao 5k
+```
+
+You can now trade or drop these envelopes for others to find!

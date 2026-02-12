@@ -1,0 +1,32 @@
+---
+title: Permissions
+description: Complete permission reference for LiXiPlugin
+---
+
+This page lists all permission nodes used by LiXiPlugin. Use these with your permission plugin (e.g., LuckPerms, PermissionsEx, GroupManager) to control who can use which features.
+
+---
+
+## User Permissions
+
+These permissions control access to regular player commands.
+
+| Permission | Description | Default | Commands |
+|-----------|-------------|---------|----------|
+| `lixi.chat` | Create chat broadcast lucky money | OP | `/lixi chat` |
+| `lixi.give` | Send money directly to other players | OP | `/lixi give` |
+| `lixi.phongbao` | Create physical envelope items | OP | `/lixi phongbao` |
+
+---
+
+## Admin Permissions
+
+These permissions control access to administrative features.
+
+| Permission | Description | Default | Commands |
+|-----------|-------------|---------|----------|
+| `lixi.admin` | Access all admin commands | OP | `/lixiadmin`, `/lixiadmin setitem`, `/lixiadmin reload` |
+
+:::note[OP Default]
+All permissions default to **OP only**. Non-OP players will not be able to use any LiXi commands unless you explicitly grant permissions.
+:::

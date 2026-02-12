@@ -1,0 +1,247 @@
+---
+title: Admin Commands
+description: Administrative commands for LiXiPlugin
+---
+
+This page lists all administrative commands for managing LiXiPlugin. All these commands require the `lixi.admin` permission.
+
+---
+
+## Main Admin Command
+
+### `/lixiadmin`
+
+**Aliases:** `/lxa`
+
+**Permission:** `lixi.admin`
+
+**Description:** Shows a list of all available admin commands.
+
+**Usage:**
+```
+/lixiadmin
+```
+
+**Output:**
+```
+=== LiXi Admin Commands ===
+/lixiadmin setitem - Set held item as envelope
+/lixiadmin reload - Reload configurations
+```
+
+---
+
+## Set Envelope Item
+
+### `/lixiadmin setitem`
+
+**Permission:** `lixi.admin`
+
+**Description:** Sets the currently held item as the envelope item for physical lucky money. This command automatically detects which custom item plugin you're using (ItemsAdder, Oraxen, or Nexo) and saves the configuration.
+
+**Usage:**
+```bash
+# 1. Get a custom item from your item plugin
+/ia get red_envelope    # ItemsAdder example
+/o give red_envelope    # Oraxen example
+/nexo give red_envelope # Nexo example
+
+# 2. Hold the item in your main hand
+
+# 3. Run the setitem command
+/lixiadmin setitem
+```
+
+**What It Does:**
+
+1. **Detects the item** you're holding using UniItem API
+2. **Identifies the plugin type** (ItemsAdder, Oraxen, or Nexo)
+3. **Saves the item ID** to `main-config.yml`
+4. **Clears other plugin IDs** to prevent conflicts
+5. **Confirms success** with a message
+
+**Example Output:**
+
+```
+Detected: itemsadder:red_envelope
+Set ItemsAdder item: red_envelope
+[Lì Xì] » Đã đặt vật phẩm lì xì thành công!
+```
+
+**Supported Plugins:**
+
+| Plugin | Example ID |
+|--------|-----------|
+| **ItemsAdder** | `red_envelope` |
+| **Oraxen** | `lixi_envelope` |
+| **Nexo** | `lucky_envelope` |
+
+**Error Messages:**
+
+- **"Bạn phải cầm một vật phẩm trong tay!"** - You must hold an item
+- **"Could not detect item type!"** - Item is vanilla or unsupported
+- **"Unsupported plugin type"** - Plugin is not ItemsAdder/Oraxen/Nexo
+
+:::tip[One-Time Setup]
+You only need to run this command once. The item configuration persists across server restarts and reloads.
+:::
+
+For a detailed walkthrough, see the [Setting Envelope Item](/guides/set-item/) guide.
+
+---
+
+## Reload Configuration
+
+### `/lixiadmin reload`
+
+**Permission:** `lixi.admin`
+
+**Description:** Reloads all configuration files from disk without restarting the server.
+
+**Usage:**
+```
+/lixiadmin reload
+```
+
+**What Gets Reloaded:**
+- `main-config.yml` - All plugin settings
+- `message-config.yml` - All messages and formatting
+
+**What Does NOT Reload:**
+- Database connections (requires server restart)
+- Service registrations (requires server restart)
+- Active chat lixi sessions (continue with old settings)
+- Physical envelopes (use database data)
+
+**Use Cases:**
+- After editing message translations
+- After changing limits or expiry time
+- After updating sound/particle effects
+- After modifying display names or lore
+
+**Example Workflow:**
+
+```bash
+# 1. Edit the config file
+# Edit plugins/LiXiPlugin/message-config.yml
+
+# 2. Reload the plugin
+/lixiadmin reload
+
+# 3. Verify changes
+[Lì Xì] » Đã tải lại cấu hình thành công!
+```
+
+:::caution[Active Sessions]
+Reloading does not affect active chat lixi sessions. Players can still claim from sessions created before the reload using the old message format.
+:::
+
+---
+
+## Permission Summary
+
+| Command | Permission | Description |
+|---------|------------|-------------|
+| `/lixiadmin` | `lixi.admin` | Shows admin help |
+| `/lixiadmin setitem` | `lixi.admin` | Sets envelope item |
+| `/lixiadmin reload` | `lixi.admin` | Reloads configs |
+
+:::note[OP Default]
+By default, only server operators have the `lixi.admin` permission. You can grant it to specific players or groups using a permission plugin like LuckPerms.
+:::
+
+---
+
+## Common Admin Tasks
+
+### Initial Setup
+
+```bash
+# 1. Get a custom item for envelopes
+/ia get red_envelope
+
+# 2. Set it as the envelope item
+/lixiadmin setitem
+
+# 3. Test creating an envelope
+/lixi phongbao 1000
+```
+
+---
+
+### Translating Messages
+
+```bash
+# 1. Edit message-config.yml
+# Change all messages to English
+
+# 2. Reload
+/lixiadmin reload
+
+# 3. Test in-game
+/lixi chat 1000 5
+```
+
+---
+
+### Adjusting Limits
+
+```bash
+# 1. Edit main-config.yml
+# Change max-amount to 10000000
+
+# 2. Reload
+/lixiadmin reload
+
+# 3. Players can now use higher amounts
+/lixi chat 5M 20
+```
+
+---
+
+## Examples
+
+### Setting Up ItemsAdder Envelope
+
+```bash
+# Get the custom item
+/ia get lucky_red_envelope
+
+# Hold it in your main hand
+# Then run:
+/lixiadmin setitem
+```
+
+Output:
+```
+Detected: itemsadder:lucky_red_envelope
+Set ItemsAdder item: lucky_red_envelope
+[Lì Xì] » Đã đặt vật phẩm lì xì thành công!
+```
+
+Config is automatically updated:
+```yaml
+envelope:
+  itemsadder:
+    item-id: "lucky_red_envelope"
+  oraxen:
+    item-id: ""
+  nexo:
+    item-id: ""
+```
+
+---
+
+### Quick Config Reload
+
+```bash
+# After editing any config file
+/lixiadmin reload
+```
+
+Output:
+```
+[Lì Xì] » Đã tải lại cấu hình thành công!
+```
+
+All new commands will use the updated settings!

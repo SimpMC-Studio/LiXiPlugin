@@ -1,0 +1,221 @@
+---
+title: Main Configuration
+description: Complete reference for main-config.yml
+---
+
+The `main-config.yml` file contains all core plugin settings. This file is located at `plugins/LiXiPlugin/main-config.yml`.
+
+After making changes, reload the config with `/lixiadmin reload`.
+
+---
+
+## Database Configuration
+
+Configure how LiXiPlugin stores data.
+
+```yaml
+database:
+  # Database type: SQLITE or MARIADB
+  # SQLite is recommended for small servers
+  # MariaDB is recommended for large servers or networks
+  type: SQLITE
+
+  # Database host (only for MariaDB)
+  host: localhost
+
+  # Database port (only for MariaDB)
+  port: 3306
+
+  # Database name (only for MariaDB)
+  database: lixi
+
+  # Database username (only for MariaDB)
+  username: root
+
+  # Database password (only for MariaDB)
+  password: ""
+```
+
+### Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `type` | String | `SQLITE` | Database type: `SQLITE` or `MARIADB` |
+| `host` | String | `localhost` | MariaDB host address |
+| `port` | Integer | `3306` | MariaDB port |
+| `database` | String | `lixi` | MariaDB database name |
+| `username` | String | `root` | MariaDB username |
+| `password` | String | `""` | MariaDB password |
+
+:::note
+SQLite stores data in `plugins/LiXiPlugin/database.db`. MariaDB requires a separate database server.
+:::
+
+---
+
+## Chat Lixi Configuration
+
+Settings for chat broadcast lucky money.
+
+```yaml
+chat-lixi:
+  # Minimum amount per chat lixi broadcast
+  min-amount: 1000.0
+
+  # Maximum amount per chat lixi broadcast
+  max-amount: 1000000.0
+
+  # Minimum number of claim slots
+  min-limit: 1
+
+  # Maximum number of claim slots
+  max-limit: 50
+
+  # Time in seconds before unclaimed lixi expires and refunds to creator
+  expiry-seconds: 60
+```
+
+### Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `min-amount` | Double | `1000.0` | Minimum money amount per broadcast |
+| `max-amount` | Double | `1000000.0` | Maximum money amount per broadcast |
+| `min-limit` | Integer | `1` | Minimum number of claim slots |
+| `max-limit` | Integer | `50` | Maximum number of claim slots |
+| `expiry-seconds` | Integer | `60` | Seconds before unclaimed money refunds |
+
+:::tip[Expiry Behavior]
+When a chat lixi expires, any unclaimed money is automatically refunded to the creator.
+:::
+
+---
+
+## Envelope Configuration
+
+Settings for physical envelope items.
+
+```yaml
+envelope:
+  # Custom item plugin configurations
+  # Set the item ID for each supported plugin
+  # Leave empty or blank to disable that plugin's items
+  # The first enabled plugin found will be used
+  itemsadder:
+    # ItemsAdder item ID (e.g., 'lixi_envelope')
+    item-id: ""
+
+  oraxen:
+    # Oraxen item ID (e.g., 'lixi_envelope')
+    item-id: ""
+
+  nexo:
+    # Nexo item ID (e.g., 'lixi_envelope')
+    item-id: ""
+
+  # Display name for envelope items (supports MiniMessage)
+  display-name: "<color:#e80c00>Lì Xì</color>"
+
+  # Lore for envelope items (supports MiniMessage)
+  # Use %amount% placeholder for the money amount
+  lore:
+    - "<gray>Chứa <gold>%amount%</gold></gray>"
+    - "<gray>Click chuột phải để nhận tiền!</gray>"
+```
+
+### Item Plugin Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `itemsadder.item-id` | String | `""` | ItemsAdder custom item ID |
+| `oraxen.item-id` | String | `""` | Oraxen custom item ID |
+| `nexo.item-id` | String | `""` | Nexo custom item ID |
+
+:::caution[Plugin Priority]
+If multiple item IDs are set, the plugin will use the first one it finds (in order: ItemsAdder → Oraxen → Nexo). It's recommended to only set one.
+:::
+
+### Display Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `display-name` | String | `<color:#e80c00>Lì Xì</color>` | Item display name (MiniMessage) |
+| `lore` | String[] | See above | Item lore lines (MiniMessage) |
+
+**Available Placeholders:**
+- `%amount%` - The money amount in the envelope
+
+---
+
+## Effects Configuration
+
+Visual and sound effects when receiving lucky money.
+
+```yaml
+effects:
+  # Sound to play when receiving lixi (namespace:sound_name)
+  sound: "minecraft:entity.experience_orb.pickup"
+
+  # Sound volume (0.0 - 1.0)
+  volume: 1.0
+
+  # Sound pitch (0.5 - 2.0)
+  pitch: 1.0
+
+  # Enable particle effects when receiving lixi
+  particles: true
+```
+
+### Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `sound` | String | `minecraft:entity.experience_orb.pickup` | Sound effect namespace ID |
+| `volume` | Float | `1.0` | Sound volume (0.0 - 1.0) |
+| `pitch` | Float | `1.0` | Sound pitch (0.5 - 2.0) |
+| `particles` | Boolean | `true` | Whether to show particle effects |
+
+:::tip[Custom Sounds]
+You can use any Minecraft sound or custom sounds from resource packs. Use the format `namespace:sound.name` (e.g., `minecraft:entity.player.levelup`).
+:::
+
+---
+
+## Example Configuration
+
+Here's a complete example with recommended settings:
+
+```yaml
+database:
+  type: SQLITE
+  host: localhost
+  port: 3306
+  database: lixi
+  username: root
+  password: ""
+
+chat-lixi:
+  min-amount: 5000.0
+  max-amount: 500000.0
+  min-limit: 3
+  max-limit: 30
+  expiry-seconds: 90
+
+envelope:
+  itemsadder:
+    item-id: "red_envelope"
+  oraxen:
+    item-id: ""
+  nexo:
+    item-id: ""
+  display-name: "<gradient:#ff0000:#ffaa00>Lucky Envelope</gradient>"
+  lore:
+    - "<gray>Contains <gold>%amount%</gold></gray>"
+    - "<yellow>Right-click to claim!</yellow>"
+
+effects:
+  sound: "minecraft:entity.player.levelup"
+  volume: 0.8
+  pitch: 1.2
+  particles: true
+```
