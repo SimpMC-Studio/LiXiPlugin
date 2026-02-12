@@ -1,6 +1,5 @@
 package me.typical.lixiplugin.config;
 
-import de.exlll.configlib.ConfigLib;
 import de.exlll.configlib.NameFormatters;
 import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurationStore;
@@ -40,7 +39,7 @@ public class ConfigManager {
     // Holds file paths for each config type
     private final Map<Class<?>, Path> configPaths = new HashMap<>();
 
-    private final YamlConfigurationProperties properties = ConfigLib.BUKKIT_DEFAULT_PROPERTIES.toBuilder()
+    private final YamlConfigurationProperties properties = YamlConfigurationProperties.newBuilder()
             .setNameFormatter(NameFormatters.LOWER_KEBAB_CASE)
             .header("""
                     LiXiPlugin Configuration @ %d
