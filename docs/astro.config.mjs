@@ -2,7 +2,8 @@ import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 
 export default defineConfig({
-  site: "https://simpmc-studio.github.io/LiXiPlugin",
+  site: "https://simpmc-studio.github.io",
+  base: "/LiXiPlugin",
   integrations: [
     starlight({
       title: "LiXiPlugin",
