@@ -1,189 +1,190 @@
 ---
-title: Main Configuration
-description: Complete reference for main-config.yml
+title: Cấu hình chính
+description: Tham khảo đầy đủ cho main-config.yml
 ---
 
-The `main-config.yml` file contains all core plugin settings. This file is located at `plugins/LiXiPlugin/main-config.yml`.
+File `main-config.yml` chứa tất cả cài đặt cốt lõi của plugin. File này nằm tại `plugins/LiXiPlugin/main-config.yml`.
 
-After making changes, reload the config with `/lixiadmin reload`.
+Sau khi thay đổi, reload config bằng `/lixiadmin reload`.
 
 ---
 
-## Database Configuration
+## Cấu hình Database
 
-Configure how LiXiPlugin stores data.
+Cấu hình cách LiXiPlugin lưu trữ dữ liệu.
 
 ```yaml
 database:
-  # Database type: SQLITE or MARIADB
-  # SQLite is recommended for small servers
-  # MariaDB is recommended for large servers or networks
+  # Loại database: SQLITE hoặc MARIADB
+  # SQLite được khuyến nghị cho server nhỏ
+  # MariaDB được khuyến nghị cho server lớn hoặc mạng lưới
   type: SQLITE
 
-  # Database host (only for MariaDB)
+  # Database host (chỉ cho MariaDB)
   host: localhost
 
-  # Database port (only for MariaDB)
+  # Database port (chỉ cho MariaDB)
   port: 3306
 
-  # Database name (only for MariaDB)
+  # Tên database (chỉ cho MariaDB)
   database: lixi
 
-  # Database username (only for MariaDB)
+  # Tên người dùng database (chỉ cho MariaDB)
   username: root
 
-  # Database password (only for MariaDB)
+  # Mật khẩu database (chỉ cho MariaDB)
   password: ""
 ```
 
-### Options
+### Tùy chọn
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `type` | String | `SQLITE` | Database type: `SQLITE` or `MARIADB` |
-| `host` | String | `localhost` | MariaDB host address |
-| `port` | Integer | `3306` | MariaDB port |
-| `database` | String | `lixi` | MariaDB database name |
-| `username` | String | `root` | MariaDB username |
-| `password` | String | `""` | MariaDB password |
+| Tùy chọn   | Loại    | Mặc định    | Mô tả                                  |
+| ---------- | ------- | ----------- | -------------------------------------- |
+| `type`     | String  | `SQLITE`    | Loại database: `SQLITE` hoặc `MARIADB` |
+| `host`     | String  | `localhost` | Địa chỉ host MariaDB                   |
+| `port`     | Integer | `3306`      | Cổng MariaDB                           |
+| `database` | String  | `lixi`      | Tên database MariaDB                   |
+| `username` | String  | `root`      | Tên người dùng MariaDB                 |
+| `password` | String  | `""`        | Mật khẩu MariaDB                       |
 
 :::note
-SQLite stores data in `plugins/LiXiPlugin/database.db`. MariaDB requires a separate database server.
+SQLite lưu trữ dữ liệu tại `plugins/LiXiPlugin/database.db`. MariaDB yêu cầu server database riêng biệt.
 :::
 
 ---
 
-## Chat Lixi Configuration
+## Cấu hình Chat Lixi
 
-Settings for chat broadcast lucky money.
+Cài đặt cho lì xì broadcast qua chat.
 
 ```yaml
 chat-lixi:
-  # Minimum amount per chat lixi broadcast
+  # Số tiền tối thiểu mỗi chat lixi broadcast
   min-amount: 1000.0
 
-  # Maximum amount per chat lixi broadcast
+  # Số tiền tối đa mỗi chat lixi broadcast
   max-amount: 1000000.0
 
-  # Minimum number of claim slots
+  # Số lượng slot nhận tối thiểu
   min-limit: 1
 
-  # Maximum number of claim slots
+  # Số lượng slot nhận tối đa
   max-limit: 50
 
-  # Time in seconds before unclaimed lixi expires and refunds to creator
+  # Thời gian (giây) trước khi lì xì chưa nhận hết hạn và hoàn lại cho người tạo
   expiry-seconds: 60
 ```
 
-### Options
+### Tùy chọn
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `min-amount` | Double | `1000.0` | Minimum money amount per broadcast |
-| `max-amount` | Double | `1000000.0` | Maximum money amount per broadcast |
-| `min-limit` | Integer | `1` | Minimum number of claim slots |
-| `max-limit` | Integer | `50` | Maximum number of claim slots |
-| `expiry-seconds` | Integer | `60` | Seconds before unclaimed money refunds |
+| Tùy chọn         | Loại    | Mặc định    | Mô tả                                       |
+| ---------------- | ------- | ----------- | ------------------------------------------- |
+| `min-amount`     | Double  | `1000.0`    | Số tiền tối thiểu mỗi broadcast             |
+| `max-amount`     | Double  | `1000000.0` | Số tiền tối đa mỗi broadcast                |
+| `min-limit`      | Integer | `1`         | Số slot nhận tối thiểu                      |
+| `max-limit`      | Integer | `50`        | Số slot nhận tối đa                         |
+| `expiry-seconds` | Integer | `60`        | Giây trước khi tiền chưa nhận được hoàn lại |
 
-:::tip[Expiry Behavior]
-When a chat lixi expires, any unclaimed money is automatically refunded to the creator.
+:::tip[Hành vi hết hạn]
+Khi chat lixi hết hạn, bất kỳ số tiền chưa nhận nào sẽ tự động hoàn lại cho người tạo.
 :::
 
 ---
 
-## Envelope Configuration
+## Cấu hình Phong bao
 
-Settings for physical envelope items.
+Cài đặt cho vật phẩm phong bao lì xì.
 
 ```yaml
 envelope:
-  # Custom item plugin configurations
-  # Set the item ID for each supported plugin
-  # Leave empty or blank to disable that plugin's items
-  # The first enabled plugin found will be used
+  # Cấu hình plugin vật phẩm tùy chỉnh
+  # Đặt ID vật phẩm cho mỗi plugin được hỗ trợ
+  # Để trống để tắt vật phẩm của plugin đó
+  # Plugin được kích hoạt đầu tiên sẽ được sử dụng
   itemsadder:
-    # ItemsAdder item ID (e.g., 'lixi_envelope')
+    # ID vật phẩm ItemsAdder (ví dụ: 'lixi_envelope')
     item-id: ""
 
   oraxen:
-    # Oraxen item ID (e.g., 'lixi_envelope')
+    # ID vật phẩm Oraxen (ví dụ: 'lixi_envelope')
     item-id: ""
 
   nexo:
-    # Nexo item ID (e.g., 'lixi_envelope')
+    # ID vật phẩm Nexo (ví dụ: 'lixi_envelope')
     item-id: ""
 
-  # Display name for envelope items (supports MiniMessage)
+  # Tên hiển thị cho vật phẩm phong bao (hỗ trợ MiniMessage)
   display-name: "<color:#e80c00>Lì Xì</color>"
 
-  # Lore for envelope items (supports MiniMessage)
-  # Use %amount% placeholder for the money amount
+  # Lore cho vật phẩm phong bao (hỗ trợ MiniMessage)
+  # Sử dụng placeholder %amount% cho số tiền
   lore:
     - "<gray>Chứa <gold>%amount%</gold></gray>"
     - "<gray>Click chuột phải để nhận tiền!</gray>"
 ```
 
-### Item Plugin Options
+### Tùy chọn plugin vật phẩm
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `itemsadder.item-id` | String | `""` | ItemsAdder custom item ID |
-| `oraxen.item-id` | String | `""` | Oraxen custom item ID |
-| `nexo.item-id` | String | `""` | Nexo custom item ID |
+| Tùy chọn             | Loại   | Mặc định | Mô tả                            |
+| -------------------- | ------ | -------- | -------------------------------- |
+| `itemsadder.item-id` | String | `""`     | ID vật phẩm tùy chỉnh ItemsAdder |
+| `oraxen.item-id`     | String | `""`     | ID vật phẩm tùy chỉnh Oraxen     |
+| `nexo.item-id`       | String | `""`     | ID vật phẩm tùy chỉnh Nexo       |
 
-:::caution[Plugin Priority]
-If multiple item IDs are set, the plugin will use the first one it finds (in order: ItemsAdder → Oraxen → Nexo). It's recommended to only set one.
+:::caution[Ưu tiên plugin]
+Nếu nhiều ID vật phẩm được đặt, plugin sẽ sử dụng cái đầu tiên tìm thấy (theo thứ tự: ItemsAdder → Oraxen → Nexo). Khuyến nghị chỉ đặt một.
 :::
 
-### Display Options
+### Tùy chọn hiển thị
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `display-name` | String | `<color:#e80c00>Lì Xì</color>` | Item display name (MiniMessage) |
-| `lore` | String[] | See above | Item lore lines (MiniMessage) |
+| Tùy chọn       | Loại     | Mặc định                       | Mô tả                               |
+| -------------- | -------- | ------------------------------ | ----------------------------------- |
+| `display-name` | String   | `<color:#e80c00>Lì Xì</color>` | Tên hiển thị vật phẩm (MiniMessage) |
+| `lore`         | String[] | Xem ở trên                     | Dòng lore vật phẩm (MiniMessage)    |
 
-**Available Placeholders:**
-- `%amount%` - The money amount in the envelope
+**Placeholder có sẵn:**
+
+- `%amount%` - Số tiền trong phong bao
 
 ---
 
-## Effects Configuration
+## Cấu hình hiệu ứng
 
-Visual and sound effects when receiving lucky money.
+Hiệu ứng hình ảnh và âm thanh khi nhận lì xì.
 
 ```yaml
 effects:
-  # Sound to play when receiving lixi (namespace:sound_name)
+  # Âm thanh phát khi nhận lì xì (namespace:sound_name)
   sound: "minecraft:entity.experience_orb.pickup"
 
-  # Sound volume (0.0 - 1.0)
+  # Âm lượng (0.0 - 1.0)
   volume: 1.0
 
-  # Sound pitch (0.5 - 2.0)
+  # Cao độ âm thanh (0.5 - 2.0)
   pitch: 1.0
 
-  # Enable particle effects when receiving lixi
+  # Bật hiệu ứng hạt khi nhận lì xì
   particles: true
 ```
 
-### Options
+### Tùy chọn
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `sound` | String | `minecraft:entity.experience_orb.pickup` | Sound effect namespace ID |
-| `volume` | Float | `1.0` | Sound volume (0.0 - 1.0) |
-| `pitch` | Float | `1.0` | Sound pitch (0.5 - 2.0) |
-| `particles` | Boolean | `true` | Whether to show particle effects |
+| Tùy chọn    | Loại    | Mặc định                                 | Mô tả                              |
+| ----------- | ------- | ---------------------------------------- | ---------------------------------- |
+| `sound`     | String  | `minecraft:entity.experience_orb.pickup` | ID namespace hiệu ứng âm thanh     |
+| `volume`    | Float   | `1.0`                                    | Âm lượng (0.0 - 1.0)               |
+| `pitch`     | Float   | `1.0`                                    | Cao độ âm thanh (0.5 - 2.0)        |
+| `particles` | Boolean | `true`                                   | Có hiển thị hiệu ứng hạt hay không |
 
-:::tip[Custom Sounds]
-You can use any Minecraft sound or custom sounds from resource packs. Use the format `namespace:sound.name` (e.g., `minecraft:entity.player.levelup`).
+:::tip[Âm thanh tùy chỉnh]
+Bạn có thể sử dụng bất kỳ âm thanh Minecraft nào hoặc âm thanh tùy chỉnh từ resource pack. Sử dụng định dạng `namespace:sound.name` (ví dụ: `minecraft:entity.player.levelup`).
 :::
 
 ---
 
-## Example Configuration
+## Ví dụ cấu hình
 
-Here's a complete example with recommended settings:
+Đây là ví dụ hoàn chỉnh với cài đặt được khuyến nghị:
 
 ```yaml
 database:
@@ -208,10 +209,10 @@ envelope:
     item-id: ""
   nexo:
     item-id: ""
-  display-name: "<gradient:#ff0000:#ffaa00>Lucky Envelope</gradient>"
+  display-name: "<gradient:#ff0000:#ffaa00>Phong Bao May Mắn</gradient>"
   lore:
-    - "<gray>Contains <gold>%amount%</gold></gray>"
-    - "<yellow>Right-click to claim!</yellow>"
+    - "<gray>Chứa <gold>%amount%</gold></gray>"
+    - "<yellow>Click chuột phải để nhận!</yellow>"
 
 effects:
   sound: "minecraft:entity.player.levelup"
@@ -219,3 +220,4 @@ effects:
   pitch: 1.2
   particles: true
 ```
+

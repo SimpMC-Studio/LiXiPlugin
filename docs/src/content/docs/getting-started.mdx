@@ -1,79 +1,81 @@
 ---
-title: Getting Started
-description: Install and configure LiXiPlugin on your server
+title: Bắt đầu
+description: Cài đặt và cấu hình LiXiPlugin trên server của bạn
 ---
 
-This guide will walk you through installing and setting up LiXiPlugin on your Paper or Folia Minecraft server.
+Hướng dẫn này sẽ hướng dẫn bạn cài đặt và thiết lập LiXiPlugin trên server Minecraft Paper hoặc Folia của bạn.
 
-## Prerequisites
+## Điều kiện tiên quyết
 
-Before installing LiXiPlugin, ensure you have:
+Trước khi cài đặt LiXiPlugin, hãy đảm bảo bạn có:
 
-- **Paper 1.21+** or **Folia** server
-- **Java 21** or higher
-- **Vault** plugin installed
-- An **economy plugin** (e.g., EssentialsX, CMI, etc.)
+- Server **Paper 1.21+** hoặc **Folia**
+- **Java 21** trở lên
+- Plugin **Vault** đã cài đặt
+- Một **plugin kinh tế** (ví dụ: EssentialsX, CMI, v.v.)
 
-:::tip[Optional Dependencies]
-For physical envelope items, you'll need one of these custom item plugins:
+:::tip[Phụ thuộc tùy chọn]
+Để sử dụng vật phẩm phong bao qua các plugin custom item, bạn sẽ cần cài 1 trong các plugin sau:
+
 - **ItemsAdder**
 - **Oraxen**
 - **Nexo**
 
-The plugin works without these, but you won't be able to create physical envelopes.
+Plugin hoạt động mà không cần các plugin này, nhưng bạn sẽ không thể tạo phong bao lì xì dưới dạng item custom.
 :::
 
 ---
 
-## Installation
+## Cài đặt
 
-### Step 1: Download
+### Bước 1: Tải xuống
 
-Download the latest `LiXiPlugin.jar` from the [GitHub Releases](https://github.com/SimpMC-Studio/LiXiPlugin/releases) page.
+Tải xuống `LiXiPlugin.jar` mới nhất từ trang [GitHub Releases](https://github.com/SimpMC-Studio/LiXiPlugin/releases).
 
-### Step 2: Install Dependencies
+### Bước 2: Cài đặt phụ thuộc
 
-1. **Vault** - Download from [SpigotMC](https://www.spigotmc.org/resources/vault.34315/)
-2. Place `Vault.jar` in your `plugins/` folder
-3. Install an economy plugin if you don't have one already
+1. **Vault** - Tải từ [SpigotMC](https://www.spigotmc.org/resources/vault.34315/)
+2. Đặt `Vault.jar` vào thư mục `plugins/` của bạn
+3. Cài đặt plugin kinh tế nếu bạn chưa có
 
-### Step 3: Install LiXiPlugin
+### Bước 3: Cài đặt LiXiPlugin
 
-1. Place `LiXiPlugin.jar` in your server's `plugins/` folder
-2. Restart your server (or use a plugin manager to load it)
-
----
-
-## First Run
-
-When you start your server for the first time with LiXiPlugin installed:
-
-1. The plugin will create a `LiXiPlugin/` folder in your plugins directory
-2. Two configuration files will be generated:
-   - `main-config.yml` - Main plugin settings
-   - `message-config.yml` - All player-facing messages
-
-### Default Configuration
-
-By default, the plugin uses:
-- **SQLite database** (stored in `LiXiPlugin/database.db`)
-- **Vietnamese messages** (fully customizable)
-- **No custom envelope item** (you need to set this up manually)
+1. Đặt `LiXiPlugin.jar` vào thư mục `plugins/` của server
+2. Khởi động lại server (hoặc sử dụng trình quản lý plugin để tải)
 
 ---
 
-## Database Setup
+## Lần chạy đầu tiên
 
-### Using SQLite (Recommended for Small Servers)
+Khi bạn khởi động server lần đầu tiên với LiXiPlugin:
 
-SQLite is the default and requires no additional setup. The database file is automatically created at `plugins/LiXiPlugin/database.db`.
+1. Plugin sẽ tạo thư mục `LiXiPlugin/` trong thư mục plugins
+2. Hai file cấu hình sẽ được tạo:
+   - `main-config.yml` - Cài đặt plugin chính
+   - `message-config.yml` - Tất cả tin nhắn cho người chơi
 
-### Using MariaDB (Recommended for Large Servers)
+### Cấu hình mặc định
 
-For better performance on large servers or networks, switch to MariaDB:
+Theo mặc định, plugin sử dụng:
 
-1. Open `main-config.yml`
-2. Find the `database` section:
+- **Database SQLite** (lưu tại `LiXiPlugin/database.db`)
+- **Tin nhắn tiếng Việt** (có thể tùy chỉnh hoàn toàn)
+- **Không có vật phẩm phong bao tùy chỉnh** (bạn cần thiết lập thủ công)
+
+---
+
+## Thiết lập Database
+
+### Sử dụng SQLite (Khuyến nghị cho server nhỏ)
+
+SQLite là mặc định và không yêu cầu thiết lập bổ sung. File database được tạo tự động tại `plugins/LiXiPlugin/database.db`.
+
+### Sử dụng MariaDB (Khuyến nghị cho server lớn)
+
+Để có hiệu suất tốt hơn trên server lớn hoặc mạng lưới, chuyển sang MariaDB:
+
+1. Mở `main-config.yml`
+2. Tìm phần `database`:
 
 ```yaml
 database:
@@ -82,70 +84,70 @@ database:
   port: 3306
   database: lixi
   username: root
-  password: your_password_here
+  password: mat_khau_cua_ban
 ```
 
-3. Create the database:
+3. Tạo database:
 
 ```sql
 CREATE DATABASE lixi CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
-4. Reload the plugin: `/lixiadmin reload`
+4. Reload plugin: `/lixiadmin reload`
 
-The plugin will automatically create all required tables.
-
----
-
-## Setting Up Envelope Items
-
-If you want to use physical envelope items, you'll need to configure a custom item:
-
-1. Install **ItemsAdder**, **Oraxen**, or **Nexo**
-2. Create a custom item in that plugin (e.g., a red envelope)
-3. **Hold the item in your hand**
-4. Run `/lixiadmin setitem`
-
-The plugin will automatically detect which plugin you're using and save the item ID to the config.
-
-See the [Setting Envelope Item](/guides/set-item/) guide for detailed instructions.
+Plugin sẽ tự động tạo tất cả các bảng cần thiết.
 
 ---
 
-## Customizing Messages
+## Thiết lập vật phẩm phong bao
 
-All messages are in `message-config.yml`. You can customize:
+Nếu bạn muốn sử dụng vật phẩm phong bao lì xì custom, bạn cần cấu hình vật phẩm tùy chỉnh:
 
-- Message text (supports [MiniMessage](https://docs.advntr.dev/minimessage/format.html) formatting)
-- Colors and gradients
-- Placeholders
+1. Cài đặt **ItemsAdder**, **Oraxen**, hoặc **Nexo**
+2. Tạo vật phẩm tùy chỉnh trong plugin đó (ví dụ: phong bao đỏ)
+3. **Cầm vật phẩm trong tay**
+4. Chạy `/lixiadmin setitem`
 
-Example:
+Plugin sẽ tự động check plugin bạn đang sử dụng và lưu ID vật phẩm vào config.
+
+Xem [Hướng dẫn thiết lập vật phẩm](/guides/set-item/) để biết hướng dẫn chi tiết.
+
+---
+
+## Tùy chỉnh tin nhắn
+
+Tất cả tin nhắn đều trong `message-config.yml`. Bạn có thể tùy chỉnh:
+
+- Nội dung tin nhắn (hỗ trợ định dạng [MiniMessage](https://docs.advntr.dev/minimessage/format.html))
+- Màu sắc và gradient
+- Placeholder
+
+Ví dụ:
 
 ```yaml
-chat-lixi-claim-success: "<prefix><green>You received</green> <gold>%amount%</gold><green>!</green>"
+chat-lixi-claim-success: "<prefix><green>Bạn đã nhận được</green> <gold>%amount%</gold><green>!</green>"
 ```
 
-After editing, reload with `/lixiadmin reload`.
+Sau khi chỉnh sửa, reload bằng `/lixiadmin reload`.
 
 ---
 
-## Verification
+## Xác minh
 
-To verify everything is working:
+Để xác minh mọi thứ hoạt động:
 
-1. Join your server
-2. Run `/lixi` - You should see a list of available commands
-3. Try creating a chat broadcast: `/lixi chat 1000 5`
-4. Check the console for any errors
+1. Vào server của bạn
+2. Chạy `/lixi` - Bạn sẽ thấy danh sách các lệnh có sẵn
+3. Thử tạo chat broadcast: `/lixi chat 1000 5`
+4. Kiểm tra console để tìm lỗi
 
-If you see errors about economy, make sure Vault and your economy plugin are properly installed.
+Nếu bạn thấy lỗi về kinh tế, hãy đảm bảo Vault và plugin kinh tế của bạn được cài đặt đúng cách.
 
 ---
 
-## Next Steps
+## Bước tiếp theo
 
-- [Configure main settings](/configuration/main-config/)
-- [Customize messages](/configuration/messages/)
-- [Learn all commands](/commands/user-commands/)
-- [Set up permissions](/guides/permissions/)
+- [Cấu hình cài đặt chính](/configuration/main-config/)
+- [Học tất cả lệnh](/commands/user-commands/)
+- [Thiết lập quyền hạn](/guides/permissions/)
+
