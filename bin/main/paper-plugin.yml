@@ -1,9 +1,9 @@
 name: LiXiPlugin
-version: "1.0-SNAPSHOT"
+version: "$version"
 main: me.typical.lixiplugin.LXPlugin
 description: Give out lucky money :D
 author: typical.smc
-website: https://github.com/typical-smc/LiXiPlugin
+website: https://github.com/SimpMC-Studio/LiXiPlugin
 api-version: "1.21"
 loader: me.typical.lixiplugin.LXPluginLoader
 folia-supported: true

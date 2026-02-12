@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'me.typical'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 
 repositories {
     mavenCentral()
@@ -68,7 +68,6 @@ tasks {
 }
 shadowJar {
     archiveClassifier.set('')
-    destinationDirectory.set(file("D:\\nexo1.21.11\\plugins\\update"))
     manifest {
         attributes('paperweight-mappings-namespace': 'mojang')
     }
