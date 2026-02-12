@@ -159,5 +159,5 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 nul
-NUL
+./bin
 # End of https://www.toptal.com/developers/gitignore/api/gradle,maven,java,intellij+all
